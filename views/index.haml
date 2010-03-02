@@ -5,7 +5,8 @@
     %label{:for => "url"} Photo URL:
     %input#url{:name => "url", :value => params[:url]}
     %input{:type => "submit", :value => "Go"}
-  %p.example (e.g. http://farm4.static.flickr.com/3583/3794050754_f221c3d533_b.jpg)
+  - unless params[:url]
+    %p.example (e.g. <a href="http://www.whoseflickr.com/?url=http://farm4.static.flickr.com/3583/3794050754_f221c3d533_b.jpg">http://farm4.static.flickr.com/3583/3794050754_f221c3d533_b.jpg</a>)
   = @profile
   - if params[:url] && @profile.nil?
     %p.error Not a valid photo URL
