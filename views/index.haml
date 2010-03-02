@@ -1,12 +1,12 @@
 #page
-  %h1 Whose Flickr
+  %h1 Whose Flickr?
   %p Whose account does that Flickr pic belong to?
   %form{:action => "/", :method => "get"}
     %label{:for => "url"} Photo URL:
     %input#url{:name => "url", :value => params[:url]}
     %input{:type => "submit", :value => "Go"}
   - unless params[:url]
-    %p.example (e.g. <a href="http://www.whoseflickr.com/?url=http://farm4.static.flickr.com/3583/3794050754_f221c3d533_b.jpg">http://farm4.static.flickr.com/3583/3794050754_f221c3d533_b.jpg</a>)
+    %p.example (e.g. <a href="http://#{env['HTTP_HOST']}/?url=http://farm4.static.flickr.com/3583/3794050754_f221c3d533_b.jpg">http://farm4.static.flickr.com/3583/3794050754_f221c3d533_b.jpg</a>)
   = @profile
   - if params[:url] && @profile.nil?
     %p.error Not a valid photo URL
