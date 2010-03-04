@@ -8,16 +8,16 @@ PATTERN = %r|http://farm\d+.static.flickr.com/\d+/(\d+)_.+|
 
 class Flickr
   include HTTParty
-  base_uri "http://api.flickr.com/services/rest/"
+  base_uri "http://api.flickr.com/services/rest"
   default_params :api_key => ENV['WHOSE_FLICKR_API_KEY']
 
   class << self
     def photo(id)
-      get("", :query => {:method => "flickr.photos.getInfo", :photo_id => id})
+      get("/", :query => {:method => "flickr.photos.getInfo", :photo_id => id})
     end
 
     def user(id)
-      get("", :query => {:method => "flickr.people.getInfo", :user_id => id})
+      get("/", :query => {:method => "flickr.people.getInfo", :user_id => id})
     end
   end
 end
