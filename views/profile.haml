@@ -1,7 +1,0 @@
-%div#profile
-  %h2
-    %a{:href => @photo['photo']['urls']['url']}= @photo['photo']['title']
-  %img{:src => params[:url], :alt => @photo['photo']['title']}
-  %div.description= @photo['photo']['description']
-  By 
-  %a{:href => "http://www.flickr.com/photos/#{@photo['photo']['owner']['nsid']}"}= @photo['photo']['owner']['username']
