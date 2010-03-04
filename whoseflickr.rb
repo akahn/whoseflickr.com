@@ -2,16 +2,29 @@ require 'sinatra'
 require 'haml'
 require 'sass'
 require 'net/http'
-require 'crack/xml'
+require 'httparty'
 
-FLICKR_REST_URL = "http://api.flickr.com/services/rest/"
-QUERY = "method=flickr.photos.getInfo&api_key=197e2adb7e0ffd30a7441537726f756f"
 PATTERN = %r|http://farm\d+.static.flickr.com/\d+/(\d+)_.+|
+
+class Flickr
+  include HTTParty
+  base_uri "http://api.flickr.com/services/rest/"
+  default_params :api_key => ENV['WHOSE_FLICKR_API_KEY']
+
+  class << self
+    def photo(id)
+      get("", :query => {:method => "flickr.photos.getInfo", :photo_id => id})
+    end
+
+    def user(id)
+      get("", :query => {:method => "flickr.people.getInfo", :user_id => id})
+    end
+  end
+end
 
 get '/' do
   if params[:url]
     @profile = fetch_profile(params[:url])
-    return @profile if request.xhr?
   end
   haml :index
 end
