@@ -24,8 +24,9 @@ end
 
 get '/' do
   expires 86400 # One day
-  if params[:url]
-    @profile = fetch_profile(params[:url])
+  if params[:url] && id = params[:url].match(PATTERN)
+    @photo = Flickr.photo(id.captures.first)['rsp']
+    @user = Flickr.user(@photo['photo']['owner']['nsid'])
   end
   haml :index
 end
@@ -34,13 +35,4 @@ get '/screen.css' do
   expires 86400
   content_type "text/css"
   sass :screen
-end
-
-helpers do
-  def lookup_photo(url)
-    return unless id = url.match(PATTERN)
-    @photo = Flickr.photo(id.captures.first)['rsp']
-    @user = Flickr.user(@photo['photo']['owner']['nsid'])
-    haml :profile
-  end
 end
