@@ -23,6 +23,7 @@ class Flickr
 end
 
 get '/' do
+  expires 86400 # One day
   if params[:url]
     @profile = fetch_profile(params[:url])
   end
@@ -30,16 +31,16 @@ get '/' do
 end
 
 get '/screen.css' do
+  expires 86400
   content_type "text/css"
   sass :screen
 end
 
 helpers do
-  def fetch_profile(url)
+  def lookup_photo(url)
     return unless id = url.match(PATTERN)
-    uri = URI.parse(FLICKR_REST_URL)
-    uri.query = QUERY + "&photo_id=" + id.captures.first
-    @profile = Crack::XML.parse(Net::HTTP.get(uri))['rsp']
+    @photo = Flickr.photo(id.captures.first)['rsp']
+    @user = Flickr.user(@photo['photo']['owner']['nsid'])
     haml :profile
   end
 end
