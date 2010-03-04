@@ -1,15 +1,18 @@
 #page
-  %h1 Whose Flickr?
-  %p Who does that Flickr pic belong to?
+  %h1
+    %a{:href => "http://#{env['HTTP_HOST']}"} Whose Flickr?
+  %p Say, who does that Flickr pic belong to?
   %form{:action => "/"}
     %label{:for => "url"} Photo URL:
     %input#url{:name => "url", :value => params[:url]}
-    %input{:type => "submit", :value => "Go"}
+    %input{:type => "submit", :value => "Tell me"}
 
   - unless params[:url]
-    %a{:href => "http://#{env['HTTP_HOST']}/?url=http://farm4.static.flickr.com/3583/3794050754_f221c3d533_b.jpg"} (e.g. http://farm4.static.flickr.com/3583/3794050754_f221c3d533_b.jpg)
+    = surround '(e.g. ', ')' do
+      %a#example{:href => "http://#{env['HTTP_HOST']}/?url=http://farm4.static.flickr.com/3583/3794050754_f221c3d533_b.jpg"} http://farm4.static.flickr.com/3583/3794050754_f221c3d533_b.jpg
 
   - if params[:url] && @photo
+    = p !!(params[:url] && @photo)
     %div#profile
       %h2
         %a{:href => @photo['photo']['urls']['url']}= @photo['photo']['title']
@@ -18,5 +21,5 @@
       By 
       %a{:href => "http://www.flickr.com/photos/#{@photo['photo']['owner']['nsid']}"}= @photo['photo']['owner']['username']
 
-  - else
+  - elsif params[:url]
     %p.error Not a valid photo URL
