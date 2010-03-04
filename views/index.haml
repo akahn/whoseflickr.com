@@ -8,8 +8,9 @@
     %input{:type => "submit", :value => "Tell me"}
 
   - unless params[:url]
-    = surround '(e.g. ', ')' do
-      %a#example{:href => "http://#{env['HTTP_HOST']}/?url=http://farm4.static.flickr.com/3583/3794050754_f221c3d533_b.jpg"} http://farm4.static.flickr.com/3583/3794050754_f221c3d533_b.jpg
+    %p#example
+      = surround '(e.g. ', ')' do
+        %a{:href => "http://#{env['HTTP_HOST']}/?url=http://farm4.static.flickr.com/3583/3794050754_f221c3d533_b.jpg"} http://farm4.static.flickr.com/3583/3794050754_f221c3d533_b.jpg
 
   - if params[:url] && @photo
     = p !!(params[:url] && @photo)
